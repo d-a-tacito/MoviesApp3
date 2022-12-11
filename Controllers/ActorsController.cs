@@ -95,7 +95,7 @@ namespace MoviesApp.Controllers
         // Post Actors/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("FirstName,LastName,Birthdate")] EditActorViewModel editModel)
+        public IActionResult Edit(int id, [Bind("FirstName,LastName,BirthDate")] EditActorViewModel editModel)
         {
             if (ModelState.IsValid)
             {
