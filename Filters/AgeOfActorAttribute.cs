@@ -16,13 +16,13 @@ public class AgeOfActorAttribute : ValidationAttribute
     public int MaxAge { get; }
 
     public string GetErrorMessage() =>
-        $"Actors must have birth date between {DateTime.Now.Year-MaxAge} and {DateTime.Now.Year - MinAge}.";
+        $"Actors must have birth date between {DateTime.Now.AddYears(-MaxAge).ToShortDateString()} and {DateTime.Now.AddYears(-MinAge).ToShortDateString()}.";
 
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        var birthYear = ((DateTime) value).Year;
-        Console.WriteLine("YearYearYear"+birthYear);
-        if (birthYear < DateTime.Now.Year - MaxAge || birthYear > DateTime.Now.Year - MinAge)
+        var birthYear = (DateTime) value;
+        //Console.WriteLine("YearYearYear"+birthYear);
+        if (birthYear < DateTime.Now.AddYears(-MaxAge).Date || birthYear > DateTime.Now.AddYears(-MinAge).Date)
         {
             return new ValidationResult(GetErrorMessage());
         }
