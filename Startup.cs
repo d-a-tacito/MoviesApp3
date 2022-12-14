@@ -12,8 +12,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using MoviesApp.Controllers;
 using MoviesApp.Data;
 using MoviesApp.Middleware;
+using MoviesApp.Models;
 
 namespace MoviesApp
 {
@@ -68,6 +71,8 @@ namespace MoviesApp
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures
             });
+            
+            app.UseMiddleware<ActorLogMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

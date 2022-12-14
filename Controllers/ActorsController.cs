@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MoviesApp.Data;
-using MoviesApp.Filters;
 using MoviesApp.Models;
 using MoviesApp.ViewModels;
 
@@ -68,6 +67,8 @@ namespace MoviesApp.Controllers
             {
                 _context.Add(_mapper.Map<Actor>(inputModel));
                 _context.SaveChanges();
+                _logger.LogInformation($"Actor has been added!\nFirstName: {inputModel.FirstName}\nLastName: {inputModel.LastName}\nBirthdate: {inputModel.BirthDate.ToShortDateString()}");
+
                 return RedirectToAction(nameof(Index));
             }
             return View(inputModel);
@@ -83,6 +84,7 @@ namespace MoviesApp.Controllers
             }
 
             var editModel = _mapper.Map<EditActorViewModel>(_context.Actors.FirstOrDefault(a => a.Id == id));
+            _logger.LogInformation($"Actor has been edited!\nFirstName: {editModel.FirstName}\nLastName: {editModel.LastName}\nBirthdate: {editModel.BirthDate.ToShortDateString()}");
 
             if (editModel == null)
             {
@@ -105,6 +107,8 @@ namespace MoviesApp.Controllers
                     actor.Id = id;
                     _context.Update(actor);
                     _context.SaveChanges();
+                    _logger.LogInformation($"Actor has been updated!\nFirstName: {editModel.FirstName}\nLastName: {editModel.LastName}\nBirthdate: {editModel.BirthDate.ToShortDateString()}");
+
                 }
                 catch (DbUpdateException)
                 {
@@ -150,7 +154,7 @@ namespace MoviesApp.Controllers
             var actor = _context.Actors.Find(id);
             _context.Actors.Remove(actor);
             _context.SaveChanges();
-            _logger.LogError($"Actor with id {actor.Id} has been deleted!");
+            _logger.LogError($"Actor has been deleted!\nId: {actor.Id}\nFirstName: {actor.FirstName}\nLastName: {actor.LastName}\nBirthdate: {actor.BirthDate.ToShortDateString()}");
             return RedirectToAction(nameof(Index));
         }
         private bool ActorExists(int id)
